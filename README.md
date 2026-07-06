@@ -13,26 +13,26 @@ Quickly compare Git refs and open file diffs in VS Code's native diff editor. Ge
 
 All commands are available from the Command Palette under **Git Compare Ref**:
 
-| Command | Description |
-| --- | --- |
-| Compare File with Ref (Current Right) | Opens `ref:file` on the left and the current file on the right |
-| Compare File with Ref (Current Left) | Opens the current file on the left and `ref:file` on the right |
-| Compare File Between Refs | Opens the active file path at the resolved left and right refs |
-| Browse Changed Files Between Refs | Lists changed files between two refs and opens the selected diff |
+| Command                               | Description                                                      |
+| ------------------------------------- | ---------------------------------------------------------------- |
+| Compare File with Ref (Current Right) | Opens `ref:file` on the left and the current file on the right   |
+| Compare File with Ref (Current Left)  | Opens the current file on the left and `ref:file` on the right   |
+| Compare File Between Refs             | Opens the active file path at the resolved left and right refs   |
+| Browse Changed Files Between Refs     | Lists changed files between two refs and opens the selected diff |
 
 Active-file commands are also available from the editor context menu for file-backed editors.
 
 ## Keyboard Shortcuts
 
-| Shortcut | Command |
-| --- | --- |
-| `Cmd+Alt+D` on macOS, `Ctrl+Alt+D` elsewhere | Compare File with Ref (Current Right) |
-| `Cmd+Alt+Shift+D` on macOS, `Ctrl+Alt+Shift+D` elsewhere | Browse Changed Files Between Refs |
+| Shortcut                                                 | Command                               |
+| -------------------------------------------------------- | ------------------------------------- |
+| `Cmd+Alt+D` on macOS, `Ctrl+Alt+D` elsewhere             | Compare File with Ref (Current Right) |
+| `Cmd+Alt+Shift+D` on macOS, `Ctrl+Alt+Shift+D` elsewhere | Browse Changed Files Between Refs     |
 
 ## Settings
 
-| Setting | Default | Description |
-| --- | --- | --- |
+| Setting                              | Default    | Description                                                                                        |
+| ------------------------------------ | ---------- | -------------------------------------------------------------------------------------------------- |
 | `gitCompareRefOpen.defaultDiffRange` | `threeDot` | Diff range for ref-vs-ref commands. Use `threeDot` for `refA...refB` or `twoDot` for `refA..refB`. |
 
 ### Diff range behavior
