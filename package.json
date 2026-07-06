@@ -3,6 +3,7 @@
   "displayName": "Git Compare Ref Open",
   "description": "Quickly compare files between Git refs and open diffs in VS Code's native diff editor.",
   "version": "0.0.2",
+  "private": true,
   "publisher": "MatteoGauthier",
   "icon": "media/icon.png",
   "repository": {
@@ -112,7 +113,7 @@
     "package": "vsce package",
     "changeset": "changeset",
     "version-packages": "changeset version",
-    "publish-extension": "node scripts/publish.mjs"
+    "publish-extension": "changeset tag && node scripts/publish.mjs"
   },
   "devDependencies": {
     "@changesets/cli": "^2.29.0",
