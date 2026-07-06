@@ -68,4 +68,4 @@ To review a large branch or pull request:
 
 ## Release Notes
 
-See [CHANGELOG.md](CHANGELOG.md).
+Release notes are tracked in `CHANGELOG.md`.

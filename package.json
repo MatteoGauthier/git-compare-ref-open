@@ -93,13 +93,15 @@
       }
     }
   },
+  "license": "MIT",
   "scripts": {
     "vscode:prepublish": "pnpm run compile",
     "compile": "tsc -p ./",
     "watch": "tsc -watch -p ./",
     "pretest": "pnpm run compile && pnpm run lint",
     "lint": "eslint src",
-    "test": "vscode-test"
+    "test": "vscode-test",
+    "package": "vsce package --allow-missing-repository"
   },
   "devDependencies": {
     "@types/vscode": "^1.105.0",
