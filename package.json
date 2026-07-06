@@ -5,6 +5,14 @@
   "version": "0.0.1",
   "publisher": "git-compare-ref-open",
   "icon": "media/icon.png",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MatteoGauthier/git-compare-ref-open.git"
+  },
+  "homepage": "https://github.com/MatteoGauthier/git-compare-ref-open#readme",
+  "bugs": {
+    "url": "https://github.com/MatteoGauthier/git-compare-ref-open/issues"
+  },
   "engines": {
     "vscode": "^1.105.0"
   },
@@ -101,7 +109,7 @@
     "pretest": "pnpm run compile && pnpm run lint",
     "lint": "eslint src",
     "test": "vscode-test",
-    "package": "vsce package --allow-missing-repository"
+    "package": "vsce package"
   },
   "devDependencies": {
     "@types/vscode": "^1.105.0",
