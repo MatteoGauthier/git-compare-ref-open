@@ -10,7 +10,7 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ### Added
 
-- Extension icon for local development and packaging
+- Extension icon based on IBM Carbon `compare` (via Iconify)
 - Default keyboard shortcuts for active-file compare and changed-file browsing
 - Concise command titles under the Git Compare Ref category
 - Compare active file with a Git ref, with current on the left or right

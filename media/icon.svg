@@ -1,12 +1,7 @@
 <svg width="128" height="128" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <rect width="128" height="128" rx="28" fill="#111827"/>
-  <path d="M34 37H94" stroke="#93C5FD" stroke-width="8" stroke-linecap="round"/>
-  <path d="M34 91H94" stroke="#93C5FD" stroke-width="8" stroke-linecap="round"/>
-  <path d="M49 37V91" stroke="#38BDF8" stroke-width="8" stroke-linecap="round"/>
-  <path d="M79 37V91" stroke="#38BDF8" stroke-width="8" stroke-linecap="round"/>
-  <path d="M49 64H79" stroke="#F8FAFC" stroke-width="8" stroke-linecap="round"/>
-  <circle cx="34" cy="37" r="9" fill="#38BDF8"/>
-  <circle cx="94" cy="37" r="9" fill="#93C5FD"/>
-  <circle cx="34" cy="91" r="9" fill="#93C5FD"/>
-  <circle cx="94" cy="91" r="9" fill="#38BDF8"/>
+  <rect width="128" height="128" rx="24" fill="#161616"/>
+  <rect x="1" y="1" width="126" height="126" rx="23" stroke="#393939" stroke-width="2"/>
+  <svg x="20" y="20" width="88" height="88" viewBox="0 0 32 32" aria-hidden="true">
+    <path fill="#78A9FF" d="M28 6H18V4a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v20a2 2 0 0 0 2 2h10v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2M4 15h6.17l-2.58 2.59L9 19l5-5l-5-5l-1.41 1.41L10.17 13H4V4h12v20H4Zm12 13v-2a2 2 0 0 0 2-2V8h10v9h-6.17l2.58-2.59L23 13l-5 5l5 5l1.41-1.41L21.83 19H28v9Z"/>
+  </svg>
 </svg>
