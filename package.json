@@ -1,23 +1,87 @@
 {
   "name": "git-compare-ref-open",
-  "displayName": "git-compare-ref-open",
-  "description": "",
+  "displayName": "Git Compare Ref Open",
+  "description": "Quickly compare files between Git refs and open diffs in VS Code's native diff editor.",
   "version": "0.0.1",
+  "publisher": "git-compare-ref-open",
   "engines": {
-    "vscode": "^1.125.0"
+    "vscode": "^1.85.0"
   },
   "categories": [
-    "Other"
+    "Other",
+    "SCM Providers"
   ],
-  "activationEvents": [],
+  "extensionDependencies": [
+    "vscode.git"
+  ],
+  "activationEvents": [
+    "onStartupFinished",
+    "onCommand:git-compare-ref-open.compareActiveFileCurrentRight",
+    "onCommand:git-compare-ref-open.compareActiveFileCurrentLeft",
+    "onCommand:git-compare-ref-open.compareActiveFileBetweenRefs",
+    "onCommand:git-compare-ref-open.browseChangedFiles"
+  ],
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
       {
-        "command": "git-compare-ref-open.helloWorld",
-        "title": "Hello World"
+        "command": "git-compare-ref-open.compareActiveFileCurrentRight",
+        "title": "Compare Active File With Ref (Current on Right)",
+        "category": "Git Compare Ref"
+      },
+      {
+        "command": "git-compare-ref-open.compareActiveFileCurrentLeft",
+        "title": "Compare Active File With Ref (Current on Left)",
+        "category": "Git Compare Ref"
+      },
+      {
+        "command": "git-compare-ref-open.compareActiveFileBetweenRefs",
+        "title": "Compare Active File Between Refs",
+        "category": "Git Compare Ref"
+      },
+      {
+        "command": "git-compare-ref-open.browseChangedFiles",
+        "title": "Browse Changed Files Between Refs",
+        "category": "Git Compare Ref"
       }
-    ]
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "command": "git-compare-ref-open.compareActiveFileCurrentRight",
+          "group": "git-compare-ref-open@1",
+          "when": "editorTextFocus && resourceScheme == file"
+        },
+        {
+          "command": "git-compare-ref-open.compareActiveFileCurrentLeft",
+          "group": "git-compare-ref-open@2",
+          "when": "editorTextFocus && resourceScheme == file"
+        },
+        {
+          "command": "git-compare-ref-open.compareActiveFileBetweenRefs",
+          "group": "git-compare-ref-open@3",
+          "when": "editorTextFocus && resourceScheme == file"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "Git Compare Ref Open",
+      "properties": {
+        "gitCompareRefOpen.defaultDiffRange": {
+          "type": "string",
+          "enum": [
+            "threeDot",
+            "twoDot"
+          ],
+          "enumDescriptions": [
+            "Compare changes on compareRef since it diverged from baseRef (refA...refB).",
+            "Compare changes directly between baseRef and compareRef (refA..refB)."
+          ],
+          "default": "threeDot",
+          "description": "Default diff range when browsing or comparing files between two refs."
+        }
+      }
+    }
   },
   "scripts": {
     "vscode:prepublish": "pnpm run compile",
@@ -28,7 +92,7 @@
     "test": "vscode-test"
   },
   "devDependencies": {
-    "@types/vscode": "^1.125.0",
+    "@types/vscode": "^1.105.0",
     "@types/mocha": "^10.0.10",
     "@types/node": "24.x",
     "typescript-eslint": "^8.61.1",

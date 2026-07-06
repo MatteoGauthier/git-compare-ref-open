@@ -1,71 +1,57 @@
-# git-compare-ref-open README
+# Git Compare Ref Open
 
-This is the README for your extension "git-compare-ref-open". After writing up a brief description, we recommend including the following sections.
+Quickly compare Git refs and open file diffs in VS Code's native diff editor.
 
 ## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+- Compare the active file with a Git ref, with current on the left or right
+- Compare the active file between two Git refs
+- Browse changed files between two refs in a searchable QuickPick
+- Open the selected file directly in VS Code's native Git diff tab
 
-For example if there is an image subfolder under your extension project workspace:
+## Commands
 
-\!\[feature X\]\(images/feature-x.png\)
+All commands are available from the Command Palette under **Git Compare Ref**:
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+| Command | Description |
+| --- | --- |
+| Compare Active File With Ref (Current on Right) | Opens `ref:file` on the left and the current file on the right |
+| Compare Active File With Ref (Current on Left) | Opens the current file on the left and `ref:file` on the right |
+| Compare Active File Between Refs | Opens the active file path at the resolved left and right refs |
+| Browse Changed Files Between Refs | Lists changed files between two refs and opens the selected diff |
+
+Active-file commands are also available from the editor context menu for file-backed editors.
+
+## Settings
+
+| Setting | Default | Description |
+| --- | --- | --- |
+| `gitCompareRefOpen.defaultDiffRange` | `threeDot` | Diff range for ref-vs-ref commands. Use `threeDot` for `refA...refB` or `twoDot` for `refA..refB`. |
+
+### Diff range behavior
+
+- `threeDot`: lists files with `refA...refB` and opens left side from `merge-base(refA, refB)` and right side from `refB`
+- `twoDot`: lists files with `refA..refB` and opens left side from `refA` and right side from `refB`
 
 ## Requirements
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+- VS Code `1.125.0` or newer
+- The built-in **Git** extension (`vscode.git`)
+- Git available on your `PATH`
 
-## Extension Settings
+## Usage examples
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
+1. Open a file in the editor.
+2. Run **Git Compare Ref: Compare Active File With Ref (Current on Right)**.
+3. Pick a branch, tag, or commit.
+4. VS Code opens the native diff editor for that file.
 
-For example:
+To review a large branch or pull request:
 
-This extension contributes the following settings:
-
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
-
-## Known Issues
-
-Calling out known issues can help limit users opening duplicate issues against your extension.
+1. Run **Git Compare Ref: Browse Changed Files Between Refs**.
+2. Pick base ref and compare ref.
+3. Search the changed-file list and open the file you want to review.
 
 ## Release Notes
 
-Users appreciate release notes as you update your extension.
-
-### 1.0.0
-
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
-
----
-
-## Following extension guidelines
-
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
-
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
-
-## Working with Markdown
-
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
-
-## For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+See [CHANGELOG.md](CHANGELOG.md).

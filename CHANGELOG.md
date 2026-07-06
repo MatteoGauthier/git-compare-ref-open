@@ -6,4 +6,13 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ## [Unreleased]
 
-- Initial release
+## [0.0.1] - 2026-07-06
+
+### Added
+
+- Compare active file with a Git ref, with current on the left or right
+- Compare active file between two Git refs
+- Browse changed files between two refs in a searchable QuickPick
+- Open selected diffs in VS Code's native diff editor via `vscode.diff`
+- Configurable default diff range (`threeDot` or `twoDot`)
+- Integration with the built-in VS Code Git extension for repository discovery and Git-backed document URIs

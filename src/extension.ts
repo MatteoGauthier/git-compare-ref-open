@@ -1,26 +1,42 @@
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
+import { browseChangedFilesBetweenRefs } from './commands/browseChangedFiles';
+import {
+	compareActiveFileBetweenRefs,
+	compareActiveFileWithRef,
+} from './commands/compareActiveFile';
+import { registerEmptyDocumentProvider } from './git/emptyDocument';
 
-// This method is called when your extension is activated
-// Your extension is activated the very first time the command is executed
-export function activate(context: vscode.ExtensionContext) {
+async function runCommand(command: () => Promise<void>): Promise<void> {
+	try {
+		await command();
+	} catch (error) {
+		const message = error instanceof Error ? error.message : 'An unexpected error occurred.';
 
-	// Use the console to output diagnostic information (console.log) and errors (console.error)
-	// This line of code will only be executed once when your extension is activated
-	console.log('Congratulations, your extension "git-compare-ref-open" is now active!');
-
-	// The command has been defined in the package.json file
-	// Now provide the implementation of the command with registerCommand
-	// The commandId parameter must match the command field in package.json
-	const disposable = vscode.commands.registerCommand('git-compare-ref-open.helloWorld', () => {
-		// The code you place here will be executed every time your command is executed
-		// Display a message box to the user
-		vscode.window.showInformationMessage('Hello World from git-compare-ref-open!');
-	});
-
-	context.subscriptions.push(disposable);
+		await vscode.window.showErrorMessage(message);
+	}
 }
 
-// This method is called when your extension is deactivated
-export function deactivate() {}
+export function activate(context: vscode.ExtensionContext): void {
+	console.log('Git Compare Ref Open extension is now active.');
+	context.subscriptions.push(
+		registerEmptyDocumentProvider(),
+		vscode.commands.registerCommand(
+			'git-compare-ref-open.compareActiveFileCurrentRight',
+			() => runCommand(() => compareActiveFileWithRef('right')),
+		),
+		vscode.commands.registerCommand(
+			'git-compare-ref-open.compareActiveFileCurrentLeft',
+			() => runCommand(() => compareActiveFileWithRef('left')),
+		),
+		vscode.commands.registerCommand(
+			'git-compare-ref-open.compareActiveFileBetweenRefs',
+			() => runCommand(() => compareActiveFileBetweenRefs()),
+		),
+		vscode.commands.registerCommand(
+			'git-compare-ref-open.browseChangedFiles',
+			() => runCommand(() => browseChangedFilesBetweenRefs()),
+		),
+	);
+}
+
+export function deactivate(): void {}
