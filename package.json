@@ -3,7 +3,7 @@
   "displayName": "Git Compare Ref Open",
   "description": "Quickly compare files between Git refs and open diffs in VS Code's native diff editor.",
   "version": "0.0.1",
-  "publisher": "git-compare-ref-open",
+  "publisher": "MatteoGauthier",
   "icon": "media/icon.png",
   "repository": {
     "type": "git",

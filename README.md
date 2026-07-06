@@ -1,6 +1,6 @@
 # Git Compare Ref Open
 
-Quickly compare Git refs and open file diffs in VS Code's native diff editor. Get it on [Open VSX](https://open-vsx.org/) — not the VS Code Marketplace — or from [GitHub Releases](https://github.com/MatteoGauthier/git-compare-ref-open/releases).
+Quickly compare Git refs and open file diffs in VS Code's native diff editor. Get it on [Open VSX](https://open-vsx.org/extension/MatteoGauthier/git-compare-ref-open) — not the VS Code Marketplace — or from [GitHub Releases](https://github.com/MatteoGauthier/git-compare-ref-open/releases).
 
 ## Features
 
