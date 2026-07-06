@@ -42,7 +42,7 @@ Active-file commands are also available from the editor context menu for file-ba
 
 ## Requirements
 
-- VS Code or Cursor compatible with VS Code `1.85.0` or newer
+- VS Code or Cursor compatible with VS Code `1.105.0` or newer
 - The built-in **Git** extension (`vscode.git`)
 - Git available on your `PATH`
 
@@ -58,6 +58,13 @@ To review a large branch or pull request:
 1. Run **Git Compare Ref: Browse Changed Files Between Refs**.
 2. Pick base ref and compare ref.
 3. Search the changed-file list and open the file you want to review.
+
+## TODO
+
+- Show recent refs at the top of the ref picker
+- Filter changed-file browsing by status (`M`, `A`, `D`, `R`)
+- Open the next or previous changed file after viewing one diff
+- Compare from SCM and file explorer context menus without needing the active editor
 
 ## Release Notes
 
