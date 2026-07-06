@@ -70,7 +70,8 @@ To review a large branch or pull request:
 
 See [CHANGELOG.md](CHANGELOG.md).
 
-## Releasing
+<details>
+<summary><strong>Releasing</strong></summary>
 
 This project uses [Changesets](https://github.com/changesets/changesets) for version bumps, changelog updates, GitHub releases, and marketplace publishing.
 
@@ -102,11 +103,15 @@ pnpm changeset
 3. Commit the changeset file and push to `master`.
 4. Merge the **Version Packages** pull request created by GitHub Actions.
 5. The release workflow will then:
-   - run lint and tests
-   - build the `.vsix`
+   - validate the extension in an isolated build job
+   - publish from a separate job that only installs tooling with `--ignore-scripts`
    - create a GitHub release
    - attach the `.vsix` to the release
    - publish to Open VSX when `OVSX_PAT` is configured
    - publish to the Visual Studio Marketplace when `VSCE_PAT` is configured
 
+GitHub Actions follow a default-deny permission model, pin third-party actions to commit SHAs, skip forked pull requests in CI, and split build from publish as recommended in [One repo, every workflow](https://bomb.sh/blog/one-repo-every-workflow/). Dependabot opens weekly PRs to bump pinned action SHAs.
+
 Missing publish secrets are skipped. You still get the GitHub release with the VSIX attached.
+
+</details>
