@@ -5,7 +5,9 @@ on:
     branches:
       - master
 
-concurrency: ${{ github.workflow }}-${{ github.ref }}
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 permissions: {}
 
@@ -40,6 +42,7 @@ jobs:
         run: pnpm run lint
 
       - name: Test
+        if: runner.os == 'Linux'
         run: xvfb-run -a pnpm run test
 
       - name: Package extension
