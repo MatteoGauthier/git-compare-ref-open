@@ -109,13 +109,18 @@
     "pretest": "pnpm run compile && pnpm run lint",
     "lint": "eslint src",
     "test": "vscode-test",
-    "package": "vsce package"
+    "package": "vsce package",
+    "changeset": "changeset",
+    "version-packages": "changeset version",
+    "release": "node scripts/release.mjs"
   },
   "devDependencies": {
+    "@changesets/cli": "^2.29.0",
     "@types/vscode": "^1.105.0",
     "@types/mocha": "^10.0.10",
     "@types/node": "24.x",
     "@vscode/vsce": "^3.7.0",
+    "ovsx": "^0.10.2",
     "typescript-eslint": "^8.61.1",
     "eslint": "^10.5.0",
     "typescript": "^6.0.3",

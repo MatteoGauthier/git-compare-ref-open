@@ -69,3 +69,44 @@ To review a large branch or pull request:
 ## Release Notes
 
 See [CHANGELOG.md](CHANGELOG.md).
+
+## Releasing
+
+This project uses [Changesets](https://github.com/changesets/changesets) for version bumps, changelog updates, GitHub releases, and marketplace publishing.
+
+### One-time setup
+
+1. Create an [Open VSX](https://open-vsx.org/) account and [personal access token](https://open-vsx.org/user-settings/tokens).
+2. Create the Open VSX namespace that matches `publisher` in `package.json`:
+
+```bash
+pnpm exec ovsx create-namespace <publisher> --pat "$OVSX_PAT"
+```
+
+3. Optional: create a [Visual Studio Marketplace](https://marketplace.visualstudio.com/manage) publisher and an Azure DevOps PAT with `Marketplace > Manage`.
+4. Add GitHub repository secrets:
+   - `OVSX_PAT`
+   - `VSCE_PAT` (optional, for official VS Code Marketplace)
+
+Before the first publish, make sure `publisher` in `package.json` matches your Open VSX namespace and Marketplace publisher ID.
+
+### Ship a change
+
+1. Make your code changes.
+2. Add a changeset:
+
+```bash
+pnpm changeset
+```
+
+3. Commit the changeset file and push to `master`.
+4. Merge the **Version Packages** pull request created by GitHub Actions.
+5. The release workflow will then:
+   - run lint and tests
+   - build the `.vsix`
+   - create a GitHub release
+   - attach the `.vsix` to the release
+   - publish to Open VSX when `OVSX_PAT` is configured
+   - publish to the Visual Studio Marketplace when `VSCE_PAT` is configured
+
+Missing publish secrets are skipped. You still get the GitHub release with the VSIX attached.
