@@ -15,12 +15,19 @@ All commands are available from the Command Palette under **Git Compare Ref**:
 
 | Command | Description |
 | --- | --- |
-| Compare Active File With Ref (Current on Right) | Opens `ref:file` on the left and the current file on the right |
-| Compare Active File With Ref (Current on Left) | Opens the current file on the left and `ref:file` on the right |
-| Compare Active File Between Refs | Opens the active file path at the resolved left and right refs |
+| Compare File with Ref (Current Right) | Opens `ref:file` on the left and the current file on the right |
+| Compare File with Ref (Current Left) | Opens the current file on the left and `ref:file` on the right |
+| Compare File Between Refs | Opens the active file path at the resolved left and right refs |
 | Browse Changed Files Between Refs | Lists changed files between two refs and opens the selected diff |
 
 Active-file commands are also available from the editor context menu for file-backed editors.
+
+## Keyboard Shortcuts
+
+| Shortcut | Command |
+| --- | --- |
+| `Cmd+Alt+D` on macOS, `Ctrl+Alt+D` elsewhere | Compare File with Ref (Current Right) |
+| `Cmd+Alt+Shift+D` on macOS, `Ctrl+Alt+Shift+D` elsewhere | Browse Changed Files Between Refs |
 
 ## Settings
 
@@ -35,14 +42,14 @@ Active-file commands are also available from the editor context menu for file-ba
 
 ## Requirements
 
-- VS Code `1.125.0` or newer
+- VS Code or Cursor compatible with VS Code `1.85.0` or newer
 - The built-in **Git** extension (`vscode.git`)
 - Git available on your `PATH`
 
 ## Usage examples
 
 1. Open a file in the editor.
-2. Run **Git Compare Ref: Compare Active File With Ref (Current on Right)**.
+2. Run **Git Compare Ref: Compare File with Ref (Current Right)**.
 3. Pick a branch, tag, or commit.
 4. VS Code opens the native diff editor for that file.
 

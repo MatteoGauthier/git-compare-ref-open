@@ -4,6 +4,7 @@
   "description": "Quickly compare files between Git refs and open diffs in VS Code's native diff editor.",
   "version": "0.0.1",
   "publisher": "git-compare-ref-open",
+  "icon": "media/icon.png",
   "engines": {
     "vscode": "^1.85.0"
   },
@@ -15,28 +16,24 @@
     "vscode.git"
   ],
   "activationEvents": [
-    "onStartupFinished",
-    "onCommand:git-compare-ref-open.compareActiveFileCurrentRight",
-    "onCommand:git-compare-ref-open.compareActiveFileCurrentLeft",
-    "onCommand:git-compare-ref-open.compareActiveFileBetweenRefs",
-    "onCommand:git-compare-ref-open.browseChangedFiles"
+    "onStartupFinished"
   ],
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
       {
         "command": "git-compare-ref-open.compareActiveFileCurrentRight",
-        "title": "Compare Active File With Ref (Current on Right)",
+        "title": "Compare File with Ref (Current Right)",
         "category": "Git Compare Ref"
       },
       {
         "command": "git-compare-ref-open.compareActiveFileCurrentLeft",
-        "title": "Compare Active File With Ref (Current on Left)",
+        "title": "Compare File with Ref (Current Left)",
         "category": "Git Compare Ref"
       },
       {
         "command": "git-compare-ref-open.compareActiveFileBetweenRefs",
-        "title": "Compare Active File Between Refs",
+        "title": "Compare File Between Refs",
         "category": "Git Compare Ref"
       },
       {
@@ -64,6 +61,19 @@
         }
       ]
     },
+    "keybindings": [
+      {
+        "command": "git-compare-ref-open.compareActiveFileCurrentRight",
+        "key": "ctrl+alt+d",
+        "mac": "cmd+alt+d",
+        "when": "editorTextFocus && resourceScheme == file"
+      },
+      {
+        "command": "git-compare-ref-open.browseChangedFiles",
+        "key": "ctrl+alt+shift+d",
+        "mac": "cmd+alt+shift+d"
+      }
+    ],
     "configuration": {
       "title": "Git Compare Ref Open",
       "properties": {

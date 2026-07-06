@@ -10,6 +10,9 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ### Added
 
+- Extension icon for local development and packaging
+- Default keyboard shortcuts for active-file compare and changed-file browsing
+- Concise command titles under the Git Compare Ref category
 - Compare active file with a Git ref, with current on the left or right
 - Compare active file between two Git refs
 - Browse changed files between two refs in a searchable QuickPick
