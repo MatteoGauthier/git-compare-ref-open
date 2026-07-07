@@ -4,7 +4,9 @@ import {
 	compareActiveFileBetweenRefs,
 	compareActiveFileWithRef,
 } from './commands/compareActiveFile';
+import { copyDiffLink, copyRemoteDiffLink } from './commands/copyDiffLink';
 import { registerEmptyDocumentProvider } from './git/emptyDocument';
+import { registerDiffUriHandler } from './uriHandler';
 
 async function runCommand(command: () => Promise<void>): Promise<void> {
 	try {
@@ -36,6 +38,15 @@ export function activate(context: vscode.ExtensionContext): void {
 			'git-compare-ref-open.browseChangedFiles',
 			() => runCommand(() => browseChangedFilesBetweenRefs()),
 		),
+		vscode.commands.registerCommand(
+			'git-compare-ref-open.copyDiffLink',
+			(resourceUri?: vscode.Uri) => runCommand(() => copyDiffLink(context.extension.id, resourceUri)),
+		),
+		vscode.commands.registerCommand(
+			'git-compare-ref-open.copyRemoteDiffLink',
+			(resourceUri?: vscode.Uri) => runCommand(() => copyRemoteDiffLink(resourceUri)),
+		),
+		registerDiffUriHandler(),
 	);
 }
 

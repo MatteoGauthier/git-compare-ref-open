@@ -93,17 +93,27 @@ export function parseChangedFiles(output: string): ChangedFileEntry[] {
 	return entries;
 }
 
+export async function pathExistsAtRef(
+	repositoryRoot: string,
+	ref: string,
+	relativePath: string,
+): Promise<boolean> {
+	try {
+		await runGit(repositoryRoot, ['cat-file', '-e', `${ref}:${relativePath}`]);
+
+		return true;
+	} catch {
+		return false;
+	}
+}
+
 export async function resolvePathAtRef(
 	repositoryRoot: string,
 	ref: string,
 	workingPath: string,
 ): Promise<string | undefined> {
-	try {
-		await runGit(repositoryRoot, ['cat-file', '-e', `${ref}:${workingPath}`]);
-
+	if (await pathExistsAtRef(repositoryRoot, ref, workingPath)) {
 		return workingPath;
-	} catch {
-		// Path is absent at the ref; look for a rename below.
 	}
 
 	const output = await runGit(repositoryRoot, [

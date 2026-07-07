@@ -9,6 +9,8 @@ Quickly compare Git refs and open file diffs in VS Code's native diff editor. Ge
 - Follow renames: if the file was moved since the selected ref, the diff opens against its old path
 - Browse changed files between two refs in a searchable QuickPick
 - Open the selected file directly in VS Code's native Git diff tab
+- Copy a deeplink to a diff and reopen it from anywhere via `vscode://` (or `cursor://`) URLs
+- Copy a shareable remote compare URL for GitHub, GitLab, or Bitbucket
 
 ## Commands
 
@@ -20,8 +22,20 @@ All commands are available from the Command Palette under **Git Compare Ref**:
 | Compare File with Ref (Current Left)  | Opens the current file on the left and `ref:file` on the right   |
 | Compare File Between Refs             | Opens the active file path at the resolved left and right refs   |
 | Browse Changed Files Between Refs     | Lists changed files between two refs and opens the selected diff |
+| Copy Diff Link                        | Copies a deeplink URL that reopens the focused ref diff (or prompts for refs from the active file) |
+| Copy Remote Diff Link                 | Copies a GitHub/GitLab/Bitbucket compare URL for the focused ref diff, anchored to the file when supported (or prompts for refs) |
 
-Active-file commands are also available from the editor context menu for file-backed editors.
+Active-file commands are also available from the editor context menu for file-backed editors. Both copy-link commands are also available by right-clicking a ref diff tab.
+
+### Diff deeplinks
+
+**Copy Diff Link** produces a URL like:
+
+```
+vscode://MatteoGauthier.git-compare-ref-open/diff?left=main&right=feature&file=src/app.ts&path=/path/to/repo&range=threeDot
+```
+
+Opening the link (the scheme matches the editor it was copied from, e.g. `cursor://`) opens the same diff, as long as the target repository is open in a workspace. `path` locates the repository, `range` accepts `threeDot` or `twoDot`, and added, deleted, and renamed files are handled the same way as in the changed-files browser.
 
 ## Keyboard Shortcuts
 

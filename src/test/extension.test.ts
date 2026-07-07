@@ -7,6 +7,8 @@ import {
 	buildChangedFileDiffUris,
 } from '../git/diffUris';
 import { EMPTY_DOCUMENT_SCHEME } from '../git/emptyDocument';
+import { buildDiffDeepLink, parseDiffLinkQuery } from '../links/deepLink';
+import { buildRemoteCompareUrl, parseRemoteUrl } from '../links/remoteLink';
 import { GitApi, GitRepository } from '../types';
 
 suite('Git Compare Ref Open Test Suite', () => {
@@ -187,5 +189,104 @@ suite('Git Compare Ref Open Test Suite', () => {
 		assert.match(diffUris.rightUri.fsPath, /src[/\\]new\.ts$/);
 		assert.strictEqual(diffUris.rightUri.query, 'ref=feature');
 		assert.strictEqual(diffUris.title, 'main ↔ feature: src/old.ts → src/new.ts');
+	});
+
+	test('diff deep link round-trips through a parsed URI', () => {
+		const deepLink = buildDiffDeepLink('vscode', 'MatteoGauthier.git-compare-ref-open', {
+			left: 'main',
+			right: 'feature/foo bar',
+			file: 'src/file.ts',
+			path: '/Users/me/dev/repo',
+			range: 'threeDot',
+		});
+		const parsedUri = vscode.Uri.parse(deepLink.toString(true));
+
+		assert.strictEqual(parsedUri.scheme, 'vscode');
+		assert.strictEqual(parsedUri.authority, 'matteogauthier.git-compare-ref-open');
+		assert.strictEqual(parsedUri.path, '/diff');
+
+		const params = parseDiffLinkQuery(parsedUri.query);
+
+		assert.strictEqual(params.left, 'main');
+		assert.strictEqual(params.right, 'feature/foo bar');
+		assert.strictEqual(params.file, 'src/file.ts');
+		assert.strictEqual(params.path, '/Users/me/dev/repo');
+		assert.strictEqual(params.range, 'threeDot');
+	});
+
+	test('parseDiffLinkQuery defaults range and omits empty path', () => {
+		const params = parseDiffLinkQuery('left=main&right=feature&file=src/file.ts');
+
+		assert.strictEqual(params.range, 'threeDot');
+		assert.strictEqual(params.path, undefined);
+	});
+
+	test('parseDiffLinkQuery rejects missing required parameters', () => {
+		assert.throws(
+			() => parseDiffLinkQuery('left=main&right=feature'),
+			/missing required/,
+		);
+	});
+
+	test('parseRemoteUrl parses SSH and HTTPS remotes', () => {
+		assert.deepStrictEqual(parseRemoteUrl('git@github.com:owner/repo.git'), {
+			host: 'github',
+			webBaseUrl: 'https://github.com/owner/repo',
+		});
+		assert.deepStrictEqual(parseRemoteUrl('https://gitlab.com/group/subgroup/repo.git'), {
+			host: 'gitlab',
+			webBaseUrl: 'https://gitlab.com/group/subgroup/repo',
+		});
+		assert.deepStrictEqual(parseRemoteUrl('ssh://git@bitbucket.org/owner/repo.git'), {
+			host: 'bitbucket',
+			webBaseUrl: 'https://bitbucket.org/owner/repo',
+		});
+		assert.deepStrictEqual(parseRemoteUrl('git@gitlab.company.com:owner/repo.git'), {
+			host: 'gitlab',
+			webBaseUrl: 'https://gitlab.company.com/owner/repo',
+		});
+	});
+
+	test('parseRemoteUrl rejects unsupported hosts and malformed URLs', () => {
+		assert.strictEqual(parseRemoteUrl('git@git.sr.ht:~owner/repo'), undefined);
+		assert.strictEqual(parseRemoteUrl('/local/bare/repo.git'), undefined);
+		assert.strictEqual(parseRemoteUrl('git@github.com:repo-without-owner'), undefined);
+	});
+
+	test('buildRemoteCompareUrl builds a GitHub compare URL with a file anchor', () => {
+		const remote = { host: 'github' as const, webBaseUrl: 'https://github.com/owner/repo' };
+
+		assert.strictEqual(
+			buildRemoteCompareUrl(remote, 'main', 'feature/foo', 'threeDot', 'src/file.ts'),
+			'https://github.com/owner/repo/compare/main...feature/foo'
+			+ '#diff-bc9705d0f7a567399044dfc66ccc82d4d9aa1cff116842a0094d54e463c9ecbc',
+		);
+		assert.strictEqual(
+			buildRemoteCompareUrl(remote, 'main', 'feature', 'twoDot'),
+			'https://github.com/owner/repo/compare/main..feature',
+		);
+	});
+
+	test('buildRemoteCompareUrl builds a GitLab compare URL', () => {
+		const remote = { host: 'gitlab' as const, webBaseUrl: 'https://gitlab.com/group/repo' };
+
+		assert.strictEqual(
+			buildRemoteCompareUrl(remote, 'main', 'feature', 'threeDot', 'src/file.ts'),
+			'https://gitlab.com/group/repo/-/compare/main...feature'
+			+ '#diff-content-fe0ea98c799ff6bd74b212310873eb13adb520aa',
+		);
+		assert.strictEqual(
+			buildRemoteCompareUrl(remote, 'main', 'feature', 'twoDot'),
+			'https://gitlab.com/group/repo/-/compare/main...feature?straight=true',
+		);
+	});
+
+	test('buildRemoteCompareUrl builds a repository-level Bitbucket compare URL', () => {
+		const remote = { host: 'bitbucket' as const, webBaseUrl: 'https://bitbucket.org/owner/repo' };
+
+		assert.strictEqual(
+			buildRemoteCompareUrl(remote, 'main', 'feature', 'threeDot', 'src/file.ts'),
+			'https://bitbucket.org/owner/repo/branches/compare/feature..main',
+		);
 	});
 });

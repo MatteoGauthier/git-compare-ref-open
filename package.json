@@ -25,7 +25,8 @@
     "vscode.git"
   ],
   "activationEvents": [
-    "onStartupFinished"
+    "onStartupFinished",
+    "onUri"
   ],
   "main": "./out/extension.js",
   "contributes": {
@@ -49,6 +50,16 @@
         "command": "git-compare-ref-open.browseChangedFiles",
         "title": "Browse Changed Files Between Refs",
         "category": "Git Compare Ref"
+      },
+      {
+        "command": "git-compare-ref-open.copyDiffLink",
+        "title": "Copy Diff Link",
+        "category": "Git Compare Ref"
+      },
+      {
+        "command": "git-compare-ref-open.copyRemoteDiffLink",
+        "title": "Copy Remote Diff Link",
+        "category": "Git Compare Ref"
       }
     ],
     "menus": {
@@ -67,6 +78,28 @@
           "command": "git-compare-ref-open.compareActiveFileBetweenRefs",
           "group": "git-compare-ref-open@3",
           "when": "editorTextFocus && resourceScheme == file"
+        },
+        {
+          "command": "git-compare-ref-open.copyDiffLink",
+          "group": "git-compare-ref-open@4",
+          "when": "editorTextFocus && resourceScheme == file"
+        },
+        {
+          "command": "git-compare-ref-open.copyRemoteDiffLink",
+          "group": "git-compare-ref-open@5",
+          "when": "editorTextFocus && resourceScheme == file"
+        }
+      ],
+      "editor/title/context": [
+        {
+          "command": "git-compare-ref-open.copyDiffLink",
+          "group": "git-compare-ref-open@1",
+          "when": "resourceScheme == git"
+        },
+        {
+          "command": "git-compare-ref-open.copyRemoteDiffLink",
+          "group": "git-compare-ref-open@2",
+          "when": "resourceScheme == git"
         }
       ]
     },
