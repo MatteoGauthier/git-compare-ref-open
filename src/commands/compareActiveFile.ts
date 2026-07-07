@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
 import { CompareSide } from '../types';
-import { resolveDiffRefs } from '../git/changedFiles';
+import { resolveDiffRefs, resolvePathAtRef } from '../git/changedFiles';
 import {
 	buildActiveFileBetweenRefsDiffUris,
 	buildActiveFileSingleRefDiffUris,
@@ -31,6 +31,7 @@ export async function compareActiveFileWithRef(currentSide: CompareSide): Promis
 	const repository = await resolveRepository(gitApi, editor.document.uri);
 	const relativePath = getRelativePath(repository, editor.document.uri);
 	const ref = await promptForRef(repository, 'Select a Git ref to compare with the active file');
+	const refRelativePath = await resolvePathAtRef(repository.rootUri.fsPath, ref, relativePath);
 	const diffUris = buildActiveFileSingleRefDiffUris(
 		gitApi,
 		repository,
@@ -38,6 +39,7 @@ export async function compareActiveFileWithRef(currentSide: CompareSide): Promis
 		ref,
 		editor.document.uri,
 		currentSide,
+		refRelativePath,
 	);
 
 	await openDiff(diffUris.leftUri, diffUris.rightUri, diffUris.title);
@@ -57,12 +59,18 @@ export async function compareActiveFileBetweenRefs(): Promise<void> {
 		compareRef,
 		rangeMode,
 	);
+	const [leftRelativePath, rightRelativePath] = await Promise.all([
+		resolvePathAtRef(repository.rootUri.fsPath, leftRef, relativePath),
+		resolvePathAtRef(repository.rootUri.fsPath, rightRef, relativePath),
+	]);
 	const diffUris = buildActiveFileBetweenRefsDiffUris(
 		gitApi,
 		repository,
 		relativePath,
 		leftRef,
 		rightRef,
+		leftRelativePath,
+		rightRelativePath,
 	);
 
 	await openDiff(diffUris.leftUri, diffUris.rightUri, diffUris.title);

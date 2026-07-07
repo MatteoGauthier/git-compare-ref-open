@@ -93,6 +93,32 @@ export function parseChangedFiles(output: string): ChangedFileEntry[] {
 	return entries;
 }
 
+export async function resolvePathAtRef(
+	repositoryRoot: string,
+	ref: string,
+	workingPath: string,
+): Promise<string | undefined> {
+	try {
+		await runGit(repositoryRoot, ['cat-file', '-e', `${ref}:${workingPath}`]);
+
+		return workingPath;
+	} catch {
+		// Path is absent at the ref; look for a rename below.
+	}
+
+	const output = await runGit(repositoryRoot, [
+		'diff',
+		'--name-status',
+		'-z',
+		'--find-renames',
+		'--diff-filter=RC',
+		ref,
+	]);
+	const entries = parseChangedFiles(output);
+
+	return entries.find((entry) => entry.path === workingPath)?.oldPath;
+}
+
 export function readDiffRangeModeFromConfig(value: string | undefined): DiffRangeMode {
 	if (value === 'twoDot') {
 		return 'twoDot';

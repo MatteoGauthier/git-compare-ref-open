@@ -31,17 +31,24 @@ export function buildActiveFileSingleRefDiffUris(
 	ref: string,
 	currentUri: vscode.Uri,
 	currentSide: 'left' | 'right',
+	refRelativePath: string | undefined,
 ): DiffUriPair {
-	const refUri = toGitRefUri(gitApi, repository, relativePath, ref);
+	const refUri = refRelativePath === undefined
+		? createEmptyDocumentUri(relativePath)
+		: toGitRefUri(gitApi, repository, refRelativePath, ref);
+	const refLabel = refRelativePath === undefined ? 'Empty' : ref;
 	const leftUri = currentSide === 'left' ? currentUri : refUri;
 	const rightUri = currentSide === 'right' ? currentUri : refUri;
-	const leftLabel = currentSide === 'left' ? 'Current' : ref;
-	const rightLabel = currentSide === 'right' ? 'Current' : ref;
+	const leftLabel = currentSide === 'left' ? 'Current' : refLabel;
+	const rightLabel = currentSide === 'right' ? 'Current' : refLabel;
+	const titlePath = refRelativePath !== undefined && refRelativePath !== relativePath
+		? `${refRelativePath} → ${relativePath}`
+		: relativePath;
 
 	return {
 		leftUri,
 		rightUri,
-		title: buildDiffTitle(leftLabel, rightLabel, relativePath),
+		title: buildDiffTitle(leftLabel, rightLabel, titlePath),
 	};
 }
 
@@ -51,11 +58,27 @@ export function buildActiveFileBetweenRefsDiffUris(
 	relativePath: string,
 	leftRef: string,
 	rightRef: string,
+	leftRelativePath: string | undefined,
+	rightRelativePath: string | undefined,
 ): DiffUriPair {
+	const leftUri = leftRelativePath === undefined
+		? createEmptyDocumentUri(relativePath)
+		: toGitRefUri(gitApi, repository, leftRelativePath, leftRef);
+	const rightUri = rightRelativePath === undefined
+		? createEmptyDocumentUri(relativePath)
+		: toGitRefUri(gitApi, repository, rightRelativePath, rightRef);
+	const leftLabel = leftRelativePath === undefined ? 'Empty' : leftRef;
+	const rightLabel = rightRelativePath === undefined ? 'Empty' : rightRef;
+	const titlePath = leftRelativePath !== undefined
+		&& rightRelativePath !== undefined
+		&& leftRelativePath !== rightRelativePath
+		? `${leftRelativePath} → ${rightRelativePath}`
+		: rightRelativePath ?? leftRelativePath ?? relativePath;
+
 	return {
-		leftUri: toGitRefUri(gitApi, repository, relativePath, leftRef),
-		rightUri: toGitRefUri(gitApi, repository, relativePath, rightRef),
-		title: buildDiffTitle(leftRef, rightRef, relativePath),
+		leftUri,
+		rightUri,
+		title: buildDiffTitle(leftLabel, rightLabel, titlePath),
 	};
 }
 

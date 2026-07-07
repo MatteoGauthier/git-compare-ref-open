@@ -6,6 +6,7 @@ Quickly compare Git refs and open file diffs in VS Code's native diff editor. Ge
 
 - Compare the active file with a Git ref, with current on the left or right
 - Compare the active file between two Git refs
+- Follow renames: if the file was moved since the selected ref, the diff opens against its old path
 - Browse changed files between two refs in a searchable QuickPick
 - Open the selected file directly in VS Code's native Git diff tab
 
